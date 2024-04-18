@@ -14,11 +14,11 @@ export const dashboardConfig: DashboardConfig = {
             href: "/dashboard",
             icon: "dashboard",
         },
-        {
-            title: "Users",
-            href: "/dashboard/users",
-            icon: "user",
-        },
+        // {
+        //     title: "Users",
+        //     href: "/dashboard/users",
+        //     icon: "user",
+        // },
         {
             title: "Chatbots",
             href: "/dashboard/chatbots",
