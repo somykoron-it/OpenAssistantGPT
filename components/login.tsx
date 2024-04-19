@@ -54,7 +54,7 @@ const LoginPage: React.FC = () => {
               Your ultimate solution for intelligent conversational agents.
             </p>
           </div>
-          <Link
+          <a
             href="/"
             className={cn(
               buttonVariants({ variant: "ghost" }),
@@ -65,12 +65,12 @@ const LoginPage: React.FC = () => {
               <Icons.chevronLeft className="mr-2 h-4 w-4" />
               Back
             </>
-          </Link>
+          </a>
         </div>
 
         {/* Right side form */}
         <div className="w-full lg:w-1/2 p-8 flex flex-col gap-y-2 justify-center items-center">
-          <Link
+          <a
             href="/"
             className={cn(
               buttonVariants({ variant: "ghost" }),
@@ -81,7 +81,7 @@ const LoginPage: React.FC = () => {
               <Icons.chevronLeft className="mr-2 h-4 w-4" />
               Back
             </>
-          </Link>
+          </a>
           <Icons.bot className="mx-auto h-8 w-8" />
           <h2 className="text-[35px] md:text-[40px] font-semibold mb-4 text-center text-[#0F172A] tracking-tight">
             Sign in
@@ -96,7 +96,7 @@ const LoginPage: React.FC = () => {
           )}
           <form
             onSubmit={handleLogin}
-            className="w-full md:w-[80%] flex flex-col gap-y-2 text-[#0F172A]"
+            className="w-full md:w-[60%] flex flex-col gap-y-2 text-[#0F172A]"
           >
             {/* Email */}
             <div className="mb-4 space-y-2">
