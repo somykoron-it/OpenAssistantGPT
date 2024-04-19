@@ -178,13 +178,24 @@ const AdminDashboard: React.FC = () => {
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [magicLink, setMagicLink] = useState(null);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
 
-  const togglePopup = () => {
+  const togglePopup = async () => {
     setShowPopup(!showPopup);
+    if (!showPopup) {
+      try {
+        // Call the GET API with fetch
+        const response = await fetch('/api/admin'); // Replace '/api/endpoint' with your actual API endpoint
+        const data = await response.json();
+        setMagicLink(data);
+      } catch (error) {
+        console.error('Error fetching data from API:', error);
+      }
+    }
   };
 
   const handleOutsideClick = (
@@ -263,7 +274,7 @@ const AdminDashboard: React.FC = () => {
               &times;
             </button>
             <h2 className="text-lg mb-4">Generate Link</h2>
-            {/* Add your content here */}
+            <p>{magicLink}</p>
           </div>
         </div>
       )}
