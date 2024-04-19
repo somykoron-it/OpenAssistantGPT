@@ -331,7 +331,6 @@ const AdminDashboard: React.FC = () => {
   };
 
   useEffect(() => {
-    // Trigger welcome message when component mounts
     showPasswordPopup();
   }, []);
 
@@ -400,8 +399,8 @@ const AdminDashboard: React.FC = () => {
             </div>
           )}
 
-          <div className="bg-[#1E1D2D] rounded-lg p-6 text-[#ffffff]">
-            <table className="min-w-full lg:h-[70vh] border-b border-[#272536]">
+          <div className="bg-[#1E1D2D] h-auto xl:overflow-y-hidden rounded-lg p-6 text-[#ffffff]">
+            <table className="min-w-full border-b border-[#272536]">
               <thead className="p-4">
                 <tr className="bg-[#343341] rounded-lg text-left">
                   {columns.map((column) => (
@@ -412,30 +411,38 @@ const AdminDashboard: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {paginatedItems.map((item) => (
-                  <tr
-                    key={item.id}
-                    className="hover:bg-[#252434] rounded-[24px]"
-                  >
-                    <TableCell>{item.registrationId}</TableCell>
-                    <TableCell>{item.name}</TableCell>
-                    <TableCell>{item.email}</TableCell>
-                    <TableCell>
-                      <Switch
-                        className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#646ce0]"
-                        checked={item.hasAccess}
-                        onCheckedChange={() => handleToggleAccess(item.id)}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <Switch
-                        className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#25B55B]"
-                        checked={item.isActive}
-                        onCheckedChange={() => handleToggleActive(item.id)}
-                      />
-                    </TableCell>
+                {paginatedItems.length === 0 ? (
+                  <tr>
+                    <td colSpan={columns.length} className="text-center py-4">
+                      <Icons.user className="text-center flex justify-center items-center w-full"/> No users found.
+                    </td>
                   </tr>
-                ))}
+                ) : (
+                  paginatedItems.map((item) => (
+                    <tr
+                      key={item.id}
+                      className="hover:bg-[#252434] rounded-[24px] h-[60px]"
+                    >
+                      <TableCell>{item.registrationId}</TableCell>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.email}</TableCell>
+                      <TableCell>
+                        <Switch
+                          className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#646ce0]"
+                          checked={item.hasAccess}
+                          onCheckedChange={() => handleToggleAccess(item.id)}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <Switch
+                          className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#25B55B]"
+                          checked={item.isActive}
+                          onCheckedChange={() => handleToggleActive(item.id)}
+                        />
+                      </TableCell>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
 
