@@ -197,3 +197,10 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Admin {
+  id                  String  @id @default(cuid())
+  magicLink           String  @unique
+  magicLinkUniquePart String 
+  email               String?
+}
