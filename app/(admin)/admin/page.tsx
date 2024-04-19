@@ -1,5 +1,8 @@
 "use client";
+import { Icons } from "@/components/icons";
 import Overlay from "@/components/overlay";
+import { Switch } from "@/components/ui/switch";
+import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -12,7 +15,14 @@ interface Item {
   hasAccess: boolean;
   isActive: boolean;
 }
+interface TableCellProps {
+  children: React.ReactNode;
+}
 
+const columns = ["Registration ID", "Name", "Email", "Give Access", "Active"];
+const TableCell: React.FC<TableCellProps> = ({ children }) => {
+  return <td className="p-2">{children}</td>;
+};
 const AdminDashboard: React.FC = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState<string>("");
@@ -182,10 +192,10 @@ const AdminDashboard: React.FC = () => {
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [magicLink, setMagicLink] = useState(null);
+  const [magicLink, setMagicLink] = useState<string>("");
   const [showOverlay, setShowOverlay] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
   };
@@ -194,11 +204,16 @@ const AdminDashboard: React.FC = () => {
     setShowPopup(!showPopup);
     if (!showPopup) {
       try {
+        setLoading(true);
         // Call the GET API with fetch
         const response = await fetch("/api/admin"); // Replace '/api/endpoint' with your actual API endpoint
         const data = await response.json();
         setMagicLink(data);
+        if (response.ok) {
+          setLoading(false);
+        }
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching data from API:", error);
       }
     }
@@ -229,13 +244,31 @@ const AdminDashboard: React.FC = () => {
       }
       return item;
     });
+    console.log(updatedItems);
     setItems(updatedItems);
   };
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
   };
-
+  const handleCopyToClipboard = () => {
+    navigator.clipboard
+      .writeText(magicLink)
+      .then(() => {
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Link copied to clipboard!",
+          toast: true,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        // alert("Link copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Failed to copy link: ", error);
+      });
+  };
   const filteredItems = items.filter(
     (item) =>
       item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -290,7 +323,7 @@ const AdminDashboard: React.FC = () => {
       if (result.isConfirmed) {
         const password = result.value;
         handleSubmitPassword(password);
-      }else if (result.dismiss === Swal.DismissReason.cancel) {
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Redirect to home page if the user cancels
         router.push("/");
       }
@@ -303,20 +336,28 @@ const AdminDashboard: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-[#000000] min-h-screen  w-fit lg:w-full">
       {showOverlay && !isLoggedIn && <Overlay />}
-      <div className="relative text-blur">
-        <div className="p-6">
+      <div className="relative">
+        <div className="p-6 flex flex-col gap-y-10">
           <div className="flex justify-between mb-4">
-            <input
-              type="text"
-              placeholder="Search..."
-              className="border p-2 rounded"
-              value={searchQuery}
-              onChange={handleSearch}
-            />
+            <div className="flex items-center gap-x-4">
+              <h1 className="text-[#ffffff] text-[25px] font-semibold">
+                Users
+              </h1>
+              <div className="relative text-[#ffffff]">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="w-[300px] px-4 py-[8px] pr-10 rounded-full bg-[#1E1D2D] placeholder:text-[#ffffff] text-[14px]"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+                <Icons.search className="h-4 w-4 absolute right-4 top-1/2 transform -translate-y-1/2" />
+              </div>
+            </div>
             <button
-              className="bg-blue-500 text-white p-2 rounded"
+              className="bg-[#5151EB] text-white p-2 rounded"
               onClick={togglePopup}
             >
               Generate Link
@@ -325,10 +366,10 @@ const AdminDashboard: React.FC = () => {
 
           {showPopup && (
             <div
-              className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+              className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-[999]"
               onClick={handleOutsideClick}
             >
-              <div className="bg-white p-6 rounded shadow-lg relative">
+              <div className="text-white bg-[#343341] w-auto h-auto p-6 rounded shadow-lg relative">
                 <button
                   className="absolute top-2 right-2"
                   onClick={() => setShowPopup(false)}
@@ -336,68 +377,83 @@ const AdminDashboard: React.FC = () => {
                   &times;
                 </button>
                 <h2 className="text-lg mb-4">Generate Link</h2>
-                <p>{magicLink}</p>
+
+                {loading ? (
+                  <div className="flex justify-center items-center w-full">
+                    <Icons.spinner className="mr-2 h-8 w-8 animate-spin" />
+                  </div>
+                ) : (
+                  <div className="flex h-[80%] gap-x-2 justify-center items-center">
+                    <div className="w-full border-2 border-blue-300 p-2 rounded-lg">
+                      <p>{magicLink}</p>
+                    </div>
+
+                    <button
+                      className="bg-[#646ce0] text-white py-2 px-4 rounded"
+                      onClick={handleCopyToClipboard}
+                    >
+                      <Icons.copy />
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
-          <table className="min-w-full bg-white border-collapse border border-gray-200">
-            <thead>
-              <tr>
-                <th className="p-2 border border-gray-200">Registration ID</th>
-                <th className="p-2 border border-gray-200">Name</th>
-                <th className="p-2 border border-gray-200">Email</th>
-                <th className="p-2 border border-gray-200">Give Access</th>
-                <th className="p-2 border border-gray-200">Active</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedItems.map((item) => (
-                <tr key={item.id}>
-                  <td className="p-2 border border-gray-200">
-                    {item.registrationId}
-                  </td>
-                  <td className="p-2 border border-gray-200">{item.name}</td>
-                  <td className="p-2 border border-gray-200">{item.email}</td>
-                  <td className="p-2 border border-gray-200">
-                    <button
-                      className={`p-2 rounded ${
-                        item.hasAccess ? "bg-green-500" : "bg-gray-300"
-                      }`}
-                      onClick={() => handleToggleAccess(item.id)}
-                    >
-                      {item.hasAccess ? "Yes" : "No"}
-                    </button>
-                  </td>
-                  <td className="p-2 border border-gray-200">
-                    <button
-                      className={`p-2 rounded ${
-                        item.isActive ? "bg-green-500" : "bg-gray-300"
-                      }`}
-                      onClick={() => handleToggleActive(item.id)}
-                    >
-                      {item.isActive ? "Active" : "Inactive"}
-                    </button>
-                  </td>
+          <div className="bg-[#1E1D2D] rounded-lg p-6 text-[#ffffff]">
+            <table className="min-w-full lg:h-[70vh] border-b border-[#272536]">
+              <thead className="p-4">
+                <tr className="bg-[#343341] rounded-lg text-left">
+                  {columns.map((column) => (
+                    <th key={column} className="p-[12px]">
+                      {column}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {paginatedItems.map((item) => (
+                  <tr
+                    key={item.id}
+                    className="hover:bg-[#252434] rounded-[24px]"
+                  >
+                    <TableCell>{item.registrationId}</TableCell>
+                    <TableCell>{item.name}</TableCell>
+                    <TableCell>{item.email}</TableCell>
+                    <TableCell>
+                      <Switch
+                        className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#646ce0]"
+                        checked={item.hasAccess}
+                        onCheckedChange={() => handleToggleAccess(item.id)}
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Switch
+                        className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#25B55B]"
+                        checked={item.isActive}
+                        onCheckedChange={() => handleToggleActive(item.id)}
+                      />
+                    </TableCell>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
 
-          <div className="flex justify-center mt-4">
-            {Array.from({ length: totalPages }, (_, index) => (
-              <button
-                key={index + 1}
-                className={`mx-2 p-2 rounded ${
-                  currentPage === index + 1
-                    ? "bg-blue-500 text-white"
-                    : "bg-gray-300"
-                }`}
-                onClick={() => handlePageChange(index + 1)}
-              >
-                {index + 1}
-              </button>
-            ))}
+            <div className="flex justify-center mt-4">
+              {Array.from({ length: totalPages }, (_, index) => (
+                <button
+                  key={index + 1}
+                  className={`mx-2 px-4 rounded ${
+                    currentPage === index + 1
+                      ? "bg-[#524DFE] text-white"
+                      : "bg-[#000000]"
+                  }`}
+                  onClick={() => handlePageChange(index + 1)}
+                >
+                  {index + 1}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>
