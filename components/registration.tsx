@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 import { Icons } from './icons';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from './ui/button';
 
 const RegistrationPage: React.FC = () => {
   const router = useRouter();
@@ -70,8 +72,8 @@ const RegistrationPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-full container flex items-center justify-center relative">
-      <div className="flex flex-col md:flex-row justify-center shadow-lg rounded-lg overflow-hidden h-[70%] md:h-[90%] bg-white md:w-3/4 lg:w-full">
+    <div className="h-screen w-full flex items-center justify-center relative">
+      <div className="flex flex-col md:flex-row justify-center shadow-lg overflow-hidden h-full bg-white md:w-3/4 lg:w-full">
         {/* Left side image */}
         <div className="w-full md:w-1/2 relative hidden md:flex">
           <img
@@ -88,14 +90,38 @@ const RegistrationPage: React.FC = () => {
               Your ultimate solution for intelligent conversational agents.
             </p>
           </div>
+          <a
+            href="/"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "absolute left-4 top-4 md:left-8 md:top-8 text-white"
+            )}
+          >
+            <>
+              <Icons.chevronLeft className="mr-2 h-4 w-4" />
+              Back
+            </>
+          </a>
         </div>
         {/* Right side form */}
         <div className="w-full md:w-1/2 p-8 flex flex-col gap-y-2 justify-center items-center">
+        <a
+            href="/"
+            className={cn(
+              buttonVariants({ variant: "ghost" }),
+              "absolute left-4 top-4 md:left-8 md:top-8 text-[#0F172A] lg:hidden"
+            )}
+          >
+            <>
+              <Icons.chevronLeft className="mr-2 h-4 w-4" />
+              Back
+            </>
+          </a>
           <Icons.bot className="mx-auto h-8 w-8" />
           <h2 className="text-[35px] md:text-[40px] font-semibold mb-4 text-center text-black tracking-tight">
             Sign up
           </h2>
-          <form onSubmit={handleSubmit } className="w-full md:w-[80%] flex flex-col gap-y-2">
+          <form onSubmit={handleSubmit } className="w-full md:w-[60%] flex flex-col gap-y-2">
             {/* First Name and Last Name */}
             <div className="mb-4">
               <div className="flex space-x-4">

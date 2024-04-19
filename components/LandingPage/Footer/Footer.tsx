@@ -48,7 +48,7 @@ const Footer = () => {
     },
     {
       title: "Existing Customers",
-      items: [{ name: "Login", path: "/login" }],
+      items: [{ name: "Login", path: "/sign-in" }],
     },
     {
       title: "New Customers",
