@@ -70,6 +70,7 @@
     "remark": "^15.0.1",
     "remark-gfm": "^4.0.0",
     "stripe": "^14.7.0",
+    "sweetalert2": "^11.10.8",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.22.4"
