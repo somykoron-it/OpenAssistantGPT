@@ -6,7 +6,7 @@ export async function GET(req: Request) {
     const magicLinkUniquePart = uuidv4();
     const baseURL = process.env.BASE_URL;
 
-    const magicLink = `${baseURL}/register/${magicLinkUniquePart}`;
+    const magicLink = `${baseURL}/sign-up/${magicLinkUniquePart}`;
     console.log(magicLink);
     await db.admin.create({
       data: {

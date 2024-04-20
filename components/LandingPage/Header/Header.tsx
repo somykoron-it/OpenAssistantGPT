@@ -27,7 +27,7 @@ const Header = () => {
     },
     {
       title: "Login",
-      path: "/sign-in",
+      path: "/login",
     },
     {
       title: "Request A Demo",

@@ -202,7 +202,7 @@ const RegistrationPage: React.FC = () => {
               {isLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Login"
+                "Register"
               )}
             </button>
           </form>
