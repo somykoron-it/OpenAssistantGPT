@@ -1,79 +1,76 @@
-import { redirect } from "next/navigation"
+import { redirect } from 'next/navigation';
 
-import { authOptions } from "@/lib/auth"
-import { db } from "@/lib/db"
-import { getCurrentUser } from "@/lib/session"
-import { DashboardHeader } from "@/components/header"
-import { DashboardShell } from "@/components/shell"
-import { ChatbotCreateButton } from "@/components/chatbot-create-button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Icons } from "@/components/icons"
-import { siteConfig } from "@/config/site"
-import { MessagesOverview } from "@/components/message-overview"
-import { OpenAIForm } from "@/components/openai-config-form"
-import { Button } from "@/components/ui/button"
+import { authOptions } from '@/lib/auth';
+import { db } from '@/lib/db';
+import { getActiveUser, getCurrentUser } from '@/lib/session';
+import { DashboardHeader } from '@/components/header';
+import { DashboardShell } from '@/components/shell';
+import { ChatbotCreateButton } from '@/components/chatbot-create-button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Icons } from '@/components/icons';
+import { siteConfig } from '@/config/site';
+import { MessagesOverview } from '@/components/message-overview';
+import { OpenAIForm } from '@/components/openai-config-form';
+import { Button } from '@/components/ui/button';
 
 export const metadata = {
   title: `${siteConfig.name} - Dashboard`,
-}
+};
 
 export default async function DashboardPage() {
-  const user = await getCurrentUser()
+  const user = await getCurrentUser();
+  console.log('-----In dashboard-------');
+  console.log(user);
 
   if (!user) {
-    redirect(authOptions?.pages?.signIn || "/login")
+    redirect(authOptions?.pages?.signIn || '/login');
   }
 
   const bots = await db.chatbot.count({
     where: {
       userId: user.id,
     },
-  })
+  });
 
   const crawlers = await db.crawler.count({
     where: {
       userId: user.id,
     },
-  })
+  });
 
   const files = await db.file.count({
     where: {
       userId: user.id,
     },
-  })
+  });
 
   const messageCountLast30Days = await db.message.count({
     where: {
       userId: user.id,
       createdAt: {
-        gte: new Date(new Date().setDate(new Date().getDate() - 30))
-      }
-    }
-  })
+        gte: new Date(new Date().setDate(new Date().getDate() - 30)),
+      },
+    },
+  });
 
   const openaiConfig = await db.openAIConfig.findFirst({
     where: {
       userId: user.id,
     },
-  })
+  });
 
   // get message for each day for the last 7 days
   const messages = await db.message.findMany({
     where: {
       userId: user.id,
       createdAt: {
-        gte: new Date(new Date().setDate(new Date().getDate() - 30))
-      }
+        gte: new Date(new Date().setDate(new Date().getDate() - 30)),
+      },
     },
     select: {
       createdAt: true,
     },
-  })
+  });
 
   const data: any = [];
   for (let i = 0; i < 30; i++) {
@@ -84,9 +81,9 @@ export default async function DashboardPage() {
   }
 
   // Count messages for each day
-  messages.forEach(message => {
+  messages.forEach((message) => {
     const messageDate = message.createdAt.toISOString().split('T')[0];
-    const dataEntry = data.find(entry => entry.name === messageDate);
+    const dataEntry = data.find((entry) => entry.name === messageDate);
     if (dataEntry) {
       dataEntry.total++;
     }
@@ -95,22 +92,54 @@ export default async function DashboardPage() {
   // Reverse the data array to start from the oldest date
   data.reverse();
 
+  const active = await getActiveUser(user.id);
+  if (!active) {
+    redirect(authOptions?.pages?.signIn || '/login');
+  }
+
   return (
     <DashboardShell>
-      <DashboardHeader heading="Dashboard" text="Welcome to Your Chatbot Dashboard">
+      <DashboardHeader
+        heading="Dashboard"
+        text="Welcome to Your Chatbot Dashboard"
+      >
         <ChatbotCreateButton />
       </DashboardHeader>
       <div>
-        {bots === 0 &&
-          <div className="mb-4 bg-blue-100 border-l-4 border-blue-500 text-black p-4" role="info">
+        {bots === 0 && (
+          <div
+            className="mb-4 bg-blue-100 border-l-4 border-blue-500 text-black p-4"
+            role="info"
+          >
             <p className="font-bold text-md">Welcome to {siteConfig.name} 🎉</p>
             <p className="text-sm">You are probably new to this platform.</p>
-            <p className="text-sm">We recommend starting with our <a className="underline" href="/dashboard/onboarding">onboarding</a> for a step-by-step guide on how to create your first chatbot.</p>
-            <p className="text-sm">If you prefer you can also start with our <a target="_blank" className="underline" href="/guides/how-to-build-smart-chatbot-for-your-webiste">tutorial</a>.</p>
+            <p className="text-sm">
+              We recommend starting with our{' '}
+              <a className="underline" href="/dashboard/onboarding">
+                onboarding
+              </a>{' '}
+              for a step-by-step guide on how to create your first chatbot.
+            </p>
+            <p className="text-sm">
+              If you prefer you can also start with our{' '}
+              <a
+                target="_blank"
+                className="underline"
+                href="/guides/how-to-build-smart-chatbot-for-your-webiste"
+              >
+                tutorial
+              </a>
+              .
+            </p>
             <br />
-            <a href="/dashboard/onboarding"><Button><p className="pr-2">Open Onboarding</p>  <Icons.help className="h-4 w-4" /> ‍</Button></a>
+            <a href="/dashboard/onboarding">
+              <Button>
+                <p className="pr-2">Open Onboarding</p>{' '}
+                <Icons.help className="h-4 w-4" /> ‍
+              </Button>
+            </a>
           </div>
-        }
+        )}
         {/* {
           !openaiConfig &&
           <div className="mb-4">
@@ -142,9 +171,7 @@ export default async function DashboardPage() {
           </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">
-                Total Files
-              </CardTitle>
+              <CardTitle className="text-sm font-medium">Total Files</CardTitle>
               <Icons.folder className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
@@ -172,6 +199,6 @@ export default async function DashboardPage() {
           <MessagesOverview items={data} />
         </CardContent>
       </Card>
-    </DashboardShell >
-  )
+    </DashboardShell>
+  );
 }

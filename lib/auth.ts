@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
           },
         });
 
-        if (user && user?.password === credentials?.password) {
+        if (user && user?.password === credentials?.password && user?.active) {
           return user;
         } else {
           return null;
@@ -49,6 +49,7 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async session({ token, session }) {
+      console.log(session);
       if (token) {
         session!.user!.id = token.id;
         session!.user!.name = token.name;
@@ -64,7 +65,6 @@ export const authOptions: NextAuthOptions = {
           email: token.email,
         },
       });
-
       if (!dbUser) {
         if (user) {
           token.id = user?.id;

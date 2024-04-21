@@ -15,11 +15,11 @@ export const metadata: Metadata = {
 };
 
 export default async function Register() {
-  const user = await getCurrentUser();
+  // const user = await getCurrentUser();
 
-  if (user) {
-    redirect('/dashboard');
-  }
+  // if (user) {
+  //   redirect('/dashboard');
+  // }
 
   return (
     <div className="flex overflow-y-auto h-screen w-screen">

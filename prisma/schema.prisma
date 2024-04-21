@@ -172,6 +172,8 @@ model User {
   email         String?   @unique
   password      String
   magicLink     String?   @unique
+  premium       Boolean  @default(false)
+  active        Boolean  @default(true)
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
@@ -201,6 +203,6 @@ model VerificationToken {
 model Admin {
   id                  String  @id @default(cuid())
   magicLink           String  @unique
-  magicLinkUniquePart String 
+  magicLinkUniquePart String
   email               String?
 }

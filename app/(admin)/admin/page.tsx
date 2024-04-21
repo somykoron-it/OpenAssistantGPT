@@ -1,11 +1,11 @@
-"use client";
-import { Icons } from "@/components/icons";
-import Overlay from "@/components/overlay";
-import { Switch } from "@/components/ui/switch";
-import { toast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+'use client';
+import { Icons } from '@/components/icons';
+import Overlay from '@/components/overlay';
+import { Switch } from '@/components/ui/switch';
+import { toast } from '@/components/ui/use-toast';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 
 interface Item {
   id: number;
@@ -19,180 +19,187 @@ interface TableCellProps {
   children: React.ReactNode;
 }
 
-const columns = ["Registration ID", "Name", "Email", "Give Access", "Active"];
+const columns = [
+  'Registration Link',
+  'Name',
+  'Email',
+  'Premium Access',
+  'Active',
+];
 const TableCell: React.FC<TableCellProps> = ({ children }) => {
   return <td className="p-2">{children}</td>;
 };
 const AdminDashboard: React.FC = () => {
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  const [items, setItems] = useState<Item[]>([
-    {
-      id: 1,
-      registrationId: "R001",
-      name: "John Doe",
-      email: "john@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 2,
-      registrationId: "R002",
-      name: "Jane Smith",
-      email: "jane@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 3,
-      registrationId: "R003",
-      name: "Michael Johnson",
-      email: "michael@example.com",
-      hasAccess: false,
-      isActive: false,
-    },
-    {
-      id: 4,
-      registrationId: "R004",
-      name: "Emily Brown",
-      email: "emily@example.com",
-      hasAccess: true,
-      isActive: false,
-    },
-    {
-      id: 5,
-      registrationId: "R005",
-      name: "David Wilson",
-      email: "david@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 6,
-      registrationId: "R006",
-      name: "Sophia Miller",
-      email: "sophia@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 7,
-      registrationId: "R007",
-      name: "Daniel Martinez",
-      email: "daniel@example.com",
-      hasAccess: false,
-      isActive: false,
-    },
-    {
-      id: 8,
-      registrationId: "R008",
-      name: "Madison Lee",
-      email: "madison@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 9,
-      registrationId: "R009",
-      name: "William Hernandez",
-      email: "william@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 10,
-      registrationId: "R010",
-      name: "Isabella Rodriguez",
-      email: "isabella@example.com",
-      hasAccess: true,
-      isActive: false,
-    },
-    {
-      id: 11,
-      registrationId: "R011",
-      name: "Ethan Hall",
-      email: "ethan@example.com",
-      hasAccess: false,
-      isActive: false,
-    },
-    {
-      id: 12,
-      registrationId: "R012",
-      name: "Olivia Garcia",
-      email: "olivia@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 13,
-      registrationId: "R013",
-      name: "James Clark",
-      email: "james@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 14,
-      registrationId: "R014",
-      name: "Amelia Rodriguez",
-      email: "amelia@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 15,
-      registrationId: "R015",
-      name: "Logan Lewis",
-      email: "logan@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 16,
-      registrationId: "R016",
-      name: "Ella Walker",
-      email: "ella@example.com",
-      hasAccess: true,
-      isActive: false,
-    },
-    {
-      id: 17,
-      registrationId: "R017",
-      name: "Aiden Green",
-      email: "aiden@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 18,
-      registrationId: "R018",
-      name: "Lily Scott",
-      email: "lily@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-    {
-      id: 19,
-      registrationId: "R019",
-      name: "Alexander Adams",
-      email: "alexander@example.com",
-      hasAccess: false,
-      isActive: true,
-    },
-    {
-      id: 20,
-      registrationId: "R020",
-      name: "Mason Mitchell",
-      email: "mason@example.com",
-      hasAccess: true,
-      isActive: true,
-    },
-  ]);
+  const [items, setItems] = useState<Item[]>([]);
+  // const [items, setItems] = useState<Item[]>([
+  //   {
+  //     id: 1,
+  //     registrationId: 'R001',
+  //     name: 'John Doe',
+  //     email: 'john@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     registrationId: 'R002',
+  //     name: 'Jane Smith',
+  //     email: 'jane@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     registrationId: 'R003',
+  //     name: 'Michael Johnson',
+  //     email: 'michael@example.com',
+  //     hasAccess: false,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 4,
+  //     registrationId: 'R004',
+  //     name: 'Emily Brown',
+  //     email: 'emily@example.com',
+  //     hasAccess: true,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 5,
+  //     registrationId: 'R005',
+  //     name: 'David Wilson',
+  //     email: 'david@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 6,
+  //     registrationId: 'R006',
+  //     name: 'Sophia Miller',
+  //     email: 'sophia@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 7,
+  //     registrationId: 'R007',
+  //     name: 'Daniel Martinez',
+  //     email: 'daniel@example.com',
+  //     hasAccess: false,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 8,
+  //     registrationId: 'R008',
+  //     name: 'Madison Lee',
+  //     email: 'madison@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 9,
+  //     registrationId: 'R009',
+  //     name: 'William Hernandez',
+  //     email: 'william@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 10,
+  //     registrationId: 'R010',
+  //     name: 'Isabella Rodriguez',
+  //     email: 'isabella@example.com',
+  //     hasAccess: true,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 11,
+  //     registrationId: 'R011',
+  //     name: 'Ethan Hall',
+  //     email: 'ethan@example.com',
+  //     hasAccess: false,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 12,
+  //     registrationId: 'R012',
+  //     name: 'Olivia Garcia',
+  //     email: 'olivia@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 13,
+  //     registrationId: 'R013',
+  //     name: 'James Clark',
+  //     email: 'james@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 14,
+  //     registrationId: 'R014',
+  //     name: 'Amelia Rodriguez',
+  //     email: 'amelia@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 15,
+  //     registrationId: 'R015',
+  //     name: 'Logan Lewis',
+  //     email: 'logan@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 16,
+  //     registrationId: 'R016',
+  //     name: 'Ella Walker',
+  //     email: 'ella@example.com',
+  //     hasAccess: true,
+  //     isActive: false,
+  //   },
+  //   {
+  //     id: 17,
+  //     registrationId: 'R017',
+  //     name: 'Aiden Green',
+  //     email: 'aiden@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 18,
+  //     registrationId: 'R018',
+  //     name: 'Lily Scott',
+  //     email: 'lily@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 19,
+  //     registrationId: 'R019',
+  //     name: 'Alexander Adams',
+  //     email: 'alexander@example.com',
+  //     hasAccess: false,
+  //     isActive: true,
+  //   },
+  //   {
+  //     id: 20,
+  //     registrationId: 'R020',
+  //     name: 'Mason Mitchell',
+  //     email: 'mason@example.com',
+  //     hasAccess: true,
+  //     isActive: true,
+  //   },
+  // ]);
 
   const itemsPerPage = 10;
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [magicLink, setMagicLink] = useState<string>("");
+  const [magicLink, setMagicLink] = useState<string>('');
   const [showOverlay, setShowOverlay] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
@@ -206,7 +213,7 @@ const AdminDashboard: React.FC = () => {
       try {
         setLoading(true);
         // Call the GET API with fetch
-        const response = await fetch("/api/admin"); // Replace '/api/endpoint' with your actual API endpoint
+        const response = await fetch('/api/admin/magic');
         const data = await response.json();
         setMagicLink(data);
         if (response.ok) {
@@ -214,7 +221,7 @@ const AdminDashboard: React.FC = () => {
         }
       } catch (error) {
         setLoading(false);
-        console.error("Error fetching data from API:", error);
+        console.error('Error fetching data from API:', error);
       }
     }
   };
@@ -227,25 +234,42 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
-  const handleToggleAccess = (id: number) => {
-    const updatedItems = items.map((item) => {
-      if (item.id === id) {
-        return { ...item, hasAccess: !item.hasAccess };
-      }
-      return item;
-    });
-    setItems(updatedItems);
-  };
+  // const handleToggleAccess = (id: number) => {
+  //   const updatedItems = items.map((item) => {
+  //     if (item.id === id) {
+  //       return { ...item, hasAccess: !item.hasAccess };
+  //     }
+  //     return item;
+  //   });
+  //   setItems(updatedItems);
+  // };
 
-  const handleToggleActive = (id: number) => {
-    const updatedItems = items.map((item) => {
-      if (item.id === id) {
-        return { ...item, isActive: !item.isActive };
+  const handleToggleProperty = async (
+    registrationId: string,
+    currentStatus: boolean,
+    property: 'premium' | 'active'
+  ) => {
+    try {
+      // Make an API call to update the backend data
+      const response = await fetch(`/api/admin/user`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          magicLink: registrationId,
+          [property]: !currentStatus,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to toggle ${property}`);
       }
-      return item;
-    });
-    console.log(updatedItems);
-    setItems(updatedItems);
+
+      fetchUserList();
+    } catch (error) {
+      console.error(`Error toggling ${property}:`, error);
+    }
   };
 
   const handlePageChange = (pageNumber: number) => {
@@ -256,9 +280,9 @@ const AdminDashboard: React.FC = () => {
       .writeText(magicLink)
       .then(() => {
         Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Link copied to clipboard!",
+          position: 'top-end',
+          icon: 'success',
+          title: 'Link copied to clipboard!',
           toast: true,
           showConfirmButton: false,
           timer: 1500,
@@ -266,7 +290,7 @@ const AdminDashboard: React.FC = () => {
         // alert("Link copied to clipboard!");
       })
       .catch((error) => {
-        console.error("Failed to copy link: ", error);
+        console.error('Failed to copy link: ', error);
       });
   };
   const filteredItems = items.filter(
@@ -284,7 +308,7 @@ const AdminDashboard: React.FC = () => {
 
   // Authentication logic
   const handleSubmitPassword = (password: string) => {
-    const correctPassword = "admin123";
+    const correctPassword = 'admin123';
 
     if (password === correctPassword) {
       setIsLoggedIn(true);
@@ -292,9 +316,9 @@ const AdminDashboard: React.FC = () => {
     } else {
       // Show incorrect password message
       Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Incorrect password!",
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Incorrect password!',
       }).then(() => {
         // Show the password field again
         showPasswordPopup();
@@ -303,7 +327,7 @@ const AdminDashboard: React.FC = () => {
   };
   const showPasswordPopup = () => {
     Swal.fire({
-      title: "Welcome to the Admin Dashboard!",
+      title: 'Welcome to the Admin Dashboard!',
       html: `
         <input id="password" class="swal2-input" type="password" placeholder="Enter your password">
         `,
@@ -311,11 +335,11 @@ const AdminDashboard: React.FC = () => {
         rgba(0,0,0,0.8)
       `,
       showCancelButton: true,
-      confirmButtonText: "Login",
-      cancelButtonText: "Cancel",
+      confirmButtonText: 'Login',
+      cancelButtonText: 'Cancel',
       preConfirm: () => {
         const password = (
-          document.getElementById("password") as HTMLInputElement
+          document.getElementById('password') as HTMLInputElement
         ).value;
         return password;
       },
@@ -325,13 +349,32 @@ const AdminDashboard: React.FC = () => {
         handleSubmitPassword(password);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Redirect to home page if the user cancels
-        router.push("/");
+        router.push('/');
       }
     });
   };
 
   useEffect(() => {
     showPasswordPopup();
+  }, []);
+
+  const fetchUserList = async () => {
+    try {
+      const response = await fetch('/api/admin/user');
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
+      }
+      const jsonData = await response.json();
+      setItems(jsonData);
+      console.log(jsonData);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Call fetchData function  the component mounts
+    fetchUserList();
   }, []);
 
   return (
@@ -414,7 +457,8 @@ const AdminDashboard: React.FC = () => {
                 {paginatedItems.length === 0 ? (
                   <tr>
                     <td colSpan={columns.length} className="text-center py-4">
-                      <Icons.user className="text-center flex justify-center items-center w-full"/> No users found.
+                      <Icons.user className="text-center flex justify-center items-center w-full" />{' '}
+                      No users found.
                     </td>
                   </tr>
                 ) : (
@@ -430,14 +474,26 @@ const AdminDashboard: React.FC = () => {
                         <Switch
                           className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#646ce0]"
                           checked={item.hasAccess}
-                          onCheckedChange={() => handleToggleAccess(item.id)}
+                          onCheckedChange={() =>
+                            handleToggleProperty(
+                              item.registrationId,
+                              item.hasAccess,
+                              'premium'
+                            )
+                          }
                         />
                       </TableCell>
                       <TableCell>
                         <Switch
                           className="data-[state=unchecked]:bg-[#0F172A] data-[state=checked]:bg-[#25B55B]"
                           checked={item.isActive}
-                          onCheckedChange={() => handleToggleActive(item.id)}
+                          onCheckedChange={() =>
+                            handleToggleProperty(
+                              item.registrationId,
+                              item.isActive,
+                              'active'
+                            )
+                          }
                         />
                       </TableCell>
                     </tr>
@@ -452,8 +508,8 @@ const AdminDashboard: React.FC = () => {
                   key={index + 1}
                   className={`mx-2 px-4 rounded ${
                     currentPage === index + 1
-                      ? "bg-[#524DFE] text-white"
-                      : "bg-[#000000]"
+                      ? 'bg-[#524DFE] text-white'
+                      : 'bg-[#000000]'
                   }`}
                   onClick={() => handlePageChange(index + 1)}
                 >
