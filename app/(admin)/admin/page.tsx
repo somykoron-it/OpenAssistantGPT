@@ -308,7 +308,7 @@ const AdminDashboard: React.FC = () => {
 
   // Authentication logic
   const handleSubmitPassword = (password: string) => {
-    const correctPassword = 'admin123';
+    const correctPassword = 'admin123456';
 
     if (password === correctPassword) {
       setIsLoggedIn(true);
