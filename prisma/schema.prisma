@@ -172,8 +172,8 @@ model User {
   email         String?   @unique
   password      String
   magicLink     String?   @unique
-  premium       Boolean  @default(false)
-  active        Boolean  @default(true)
+  premium       Boolean   @default(false)
+  active        Boolean   @default(true)
   emailVerified DateTime?
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
@@ -205,4 +205,14 @@ model Admin {
   magicLink           String  @unique
   magicLinkUniquePart String
   email               String?
+}
+
+model AIMode {
+  id              String @id @default(cuid())
+  userId       String
+  buesinessName   String
+  welcomeMessage  String
+  prompt          String
+  businessContext String
+  createdAt     DateTime  @default(now()) @map(name: "created_at")
 }

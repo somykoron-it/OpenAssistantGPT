@@ -92,10 +92,7 @@ export default async function DashboardPage() {
   // Reverse the data array to start from the oldest date
   data.reverse();
 
-  const active = await getActiveUser(user.id);
-  if (!active) {
-    redirect(authOptions?.pages?.signIn || '/login');
-  }
+  
 
   return (
     <DashboardShell>

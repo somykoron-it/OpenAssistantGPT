@@ -44,7 +44,7 @@ export function DashboardNav({ items }: DashboardNavProps) {
                     )
                 })}
             </div>
-            <Card>
+            {/* <Card>
                 <CardHeader>
                     <CardTitle className="text-sm">Upgrade your plan</CardTitle>
                     <CardDescription className="text-xs">
@@ -54,7 +54,7 @@ export function DashboardNav({ items }: DashboardNavProps) {
                 <CardContent>
                     <UpgradePlanButton size="sm" />
                 </CardContent>
-            </Card>
+            </Card> */}
         </nav>
     )
 }

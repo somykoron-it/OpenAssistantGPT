@@ -53,9 +53,9 @@ export async function POST(req: Request) {
       },
     })
 
-    if (count >= subscriptionPlan.maxChatbots) {
-      throw new RequiresHigherPlanError()
-    }
+    // if (count >= subscriptionPlan.maxChatbots) {
+    //   throw new RequiresHigherPlanError()
+    // }
 
     const json = await req.json()
     const body = chatbotSchema.parse(json)

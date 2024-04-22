@@ -118,9 +118,9 @@ export async function GET(
             },
         })
 
-        if (count >= subscriptionPlan.maxFiles) {
-            throw new RequiresHigherPlanError()
-        }
+        // if (count >= subscriptionPlan.maxFiles) {
+        //     throw new RequiresHigherPlanError()
+        // }
 
         const openAIConfig = await db.openAIConfig.findUnique({
             select: {

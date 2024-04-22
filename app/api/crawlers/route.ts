@@ -58,9 +58,9 @@ export async function POST(req: Request) {
             },
         })
 
-        if (count >= subscriptionPlan.maxCrawlers) {
-            throw new RequiresHigherPlanError()
-        }
+        // if (count >= subscriptionPlan.maxCrawlers) {
+        //     throw new RequiresHigherPlanError()
+        // }
 
         const json = await req.json()
         const body = crawlerCreateSchema.parse(json)

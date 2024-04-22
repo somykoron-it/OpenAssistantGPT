@@ -1,141 +1,139 @@
+import { User, Message } from '@prisma/client';
+import type { Icon } from 'lucide-react';
 
-import { User, Message } from "@prisma/client"
-import type { Icon } from "lucide-react"
-
-import { Icons } from "@/components/icons"
-
+import { Icons } from '@/components/icons';
 
 export type InquiryMessages = {
-  id: string
-  inquiry: string
-  createdAt: Date
-  chatbotId: string
-  threadId: string
-  email: string
-  deletedAt: Date | null
-  messages: Message[]
-}
+  id: string;
+  inquiry: string;
+  createdAt: Date;
+  chatbotId: string;
+  threadId: string;
+  email: string;
+  deletedAt: Date | null;
+  messages: Message[];
+};
 
 export type NavItem = {
-  title: string
-  href: string
-  disabled?: boolean
-}
+  title: string;
+  href: string;
+  disabled?: boolean;
+};
 
-export type MainNavItem = NavItem
+export type MainNavItem = NavItem;
 
 export type SidebarNavItem = {
-  title: string
-  disabled?: boolean
-  external?: boolean
-  icon?: keyof typeof Icons
+  title: string;
+  disabled?: boolean;
+  external?: boolean;
+  icon?: keyof typeof Icons;
 } & (
-    | {
-      href: string
-      items?: never
+  | {
+      href: string;
+      items?: never;
     }
-    | {
-      href?: string
-      items: NavLink[]
+  | {
+      href?: string;
+      items: NavLink[];
     }
-  )
-
+);
 
 export type DashboardConfig = {
-  mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
-}
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
 
 export type DocsConfig = {
-  mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
-}
+  mainNav: MainNavItem[];
+  sidebarNav: SidebarNavItem[];
+};
 
 export type SiteConfig = {
-  name: string
-  description: string
-  url: string
-  ogImage: string
+  name: string;
+  description: string;
+  url: string;
+  ogImage: string;
   links: {
-    twitter: string
-    github: string
-    productHunt: string
-  }
-}
+    twitter: string;
+    github: string;
+    productHunt: string;
+  };
+};
 
 export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number
-  }
+  Pick<User, 'stripeCustomerId' | 'stripeSubscriptionId'> & {
+    stripeCurrentPeriodEnd: number;
+  };
 
 export type ChatbotConfig = {
-  id: number
-  welcomeMessage: string
-  displayBranding: boolean
-  chatTitle: string
-  chatMessagePlaceHolder: string
-  bubbleColor: string
-  bubbleTextColor: string
-  chatHeaderBackgroundColor: string
-  chatHeaderTextColor: string
-  chatbotReplyBackgroundColor: string
-  chatbotReplyTextColor: string
-  userReplyBackgroundColor: string
-  userReplyTextColor: string
-  inquiryEnabled: boolean,
-  inquiryLinkText: string,
-  inquiryTitle: string,
-  inquirySubtitle: string,
-  inquiryMessageLabel: string,
-  inquiryEmailLabel: string,
-  inquirySendButtonText: string,
-  inquiryAutomaticReplyText: string,
-  inquiryDisplayLinkAfterXMessage: number,
-}
+  id: number;
+  welcomeMessage: string;
+  displayBranding: boolean;
+  chatTitle: string;
+  chatMessagePlaceHolder: string;
+  bubbleColor: string;
+  bubbleTextColor: string;
+  chatHeaderBackgroundColor: string;
+  chatHeaderTextColor: string;
+  chatbotReplyBackgroundColor: string;
+  chatbotReplyTextColor: string;
+  userReplyBackgroundColor: string;
+  userReplyTextColor: string;
+  inquiryEnabled: boolean;
+  inquiryLinkText: string;
+  inquiryTitle: string;
+  inquirySubtitle: string;
+  inquiryMessageLabel: string;
+  inquiryEmailLabel: string;
+  inquirySendButtonText: string;
+  inquiryAutomaticReplyText: string;
+  inquiryDisplayLinkAfterXMessage: number;
+};
+
 
 
 export type MarketingConfig = {
-  mainNav: MainNavItem[]
-}
+  mainNav: MainNavItem[];
+};
 
 export type CrawlerPublishedFile = {
-  crawlerFileId: string
-  openAIFileId: string
-  name: string
-}
+  crawlerFileId: string;
+  openAIFileId: string;
+  name: string;
+};
 
 export type UploadPublishedFile = {
-  uploadFileId: string
-  openAIFileId: string
-  name: string
-}
+  uploadFileId: string;
+  openAIFileId: string;
+  name: string;
+};
 
 export type SubscriptionPlan = {
-  name: string
-  description: string
-  stripePriceId: string
+  name: string;
+  description: string;
+  stripePriceId: string;
 
   // Specs
-  maxChatbots: number
+  maxChatbots: number;
 
-  unlimitedMessages: boolean
-  maxMessagesPerMonth: number | undefined
+  unlimitedMessages: boolean;
+  maxMessagesPerMonth: number | undefined;
 
-  maxFiles: number
+  maxFiles: number;
 
-  maxCrawlers: number
+  maxCrawlers: number;
 
-  premiumSupport?: boolean
+  premiumSupport?: boolean;
 
-  basicCustomization: boolean
+  basicCustomization: boolean;
 
-  userInquiries: boolean
+  userInquiries: boolean;
 
-  price: number | undefined
-}
+  price: number | undefined;
+};
 
 export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number
-    isPro: boolean
-  }
+  Pick<User, 'stripeCustomerId' | 'stripeSubscriptionId'> & {
+    stripeCurrentPeriodEnd: number;
+    isPro: boolean;
+  };

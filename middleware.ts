@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 
 export default withAuth(
   async function middleware(req) {
-    console.log('-----------Inside middelware-----------');
     const token = await getToken({ req });
     // console.log('THere');
     // console.log(token);

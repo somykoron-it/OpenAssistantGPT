@@ -53,7 +53,7 @@ export default async function RootLayout({
   return (
     <html lang="en suppressHydrationWarning">
       <head>
-        <Chatbot />
+        {/* <Chatbot /> */}
       </head>
       <AOSInit />
       <body

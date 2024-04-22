@@ -26,9 +26,9 @@ export async function POST(request: Request) {
                 userId: user.id,
             },
         })
-        if (count >= subscriptionPlan.maxFiles) {
-            throw new RequiresHigherPlanError()
-        }
+        // if (count >= subscriptionPlan.maxFiles) {
+        //     throw new RequiresHigherPlanError()
+        // }
 
         const { searchParams } = new URL(request.url);
         const filename = searchParams.get('filename');

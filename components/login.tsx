@@ -1,40 +1,35 @@
-"use client";
-import React, { useState } from "react";
-import { signIn } from "next-auth/react";
-import { Icons } from "./icons";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "./ui/button";
+'use client';
+import React, { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { Icons } from './icons';
+import Link from 'next/link';
+import { cn } from '@/lib/utils';
+import { buttonVariants } from './ui/button';
 
 const LoginPage: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string>('');
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError("");
+    setError('');
     // Use next-auth's signIn function for login
-    const result = await signIn("credentials", {
-      callbackUrl: "/dashboard",
+    const result = await signIn('credentials', {
+      callbackUrl: '/dashboard',
       reload: true,
       redirect: true,
       email,
       password,
     });
 
-    if (result?.ok) {
-      // Handle successful login
-      console.log("Logged in successfully!");
-      setIsLoading(false);
-    } else {
-      // Handle login error
-      setError("Login failed");
-      setIsLoading(false);
-      console.log("Login failed");
-    }
+    if (!result?.ok) {
+      setError('Login failed');
+    } 
+    setIsLoading(false);
+
   };
 
   return (
@@ -57,8 +52,8 @@ const LoginPage: React.FC = () => {
           <a
             href="/"
             className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "absolute left-4 top-4 md:left-8 md:top-8 text-white"
+              buttonVariants({ variant: 'ghost' }),
+              'absolute left-4 top-4 md:left-8 md:top-8 text-white'
             )}
           >
             <>
@@ -73,8 +68,8 @@ const LoginPage: React.FC = () => {
           <a
             href="/"
             className={cn(
-              buttonVariants({ variant: "ghost" }),
-              "absolute left-4 top-4 md:left-8 md:top-8 text-[#0F172A] lg:hidden"
+              buttonVariants({ variant: 'ghost' }),
+              'absolute left-4 top-4 md:left-8 md:top-8 text-[#0F172A] lg:hidden'
             )}
           >
             <>
@@ -88,7 +83,7 @@ const LoginPage: React.FC = () => {
           </h2>
           {error && (
             <div
-              className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 w-[50%]"
+              className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 w-full md:w-[60%]"
               role="alert"
             >
               <p>{error}</p>
@@ -101,7 +96,7 @@ const LoginPage: React.FC = () => {
             {/* Email */}
             <div className="mb-4 space-y-2">
               <label htmlFor="email" className="font-medium">
-                Enter your email{" "}
+                Enter your email{' '}
               </label>
               <input
                 type="email"
@@ -117,7 +112,7 @@ const LoginPage: React.FC = () => {
             {/* Password */}
             <div className="mb-4 space-y-2">
               <label htmlFor="password" className="font-medium">
-                Enter your password{" "}
+                Enter your password{' '}
               </label>
               <input
                 type="password"
@@ -138,7 +133,7 @@ const LoginPage: React.FC = () => {
               {isLoading ? (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                "Login"
+                'Login'
               )}
             </button>
           </form>
