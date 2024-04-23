@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import { Icons } from './icons';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from './ui/button';
+import { signOut } from "next-auth/react"
+
 
 const RegistrationPage: React.FC = () => {
   const router = useRouter();
@@ -52,6 +54,9 @@ const RegistrationPage: React.FC = () => {
 
         // Handle successful registration
         console.log("User registered successfully:", data);
+        signOut({
+            callbackUrl: `${window.location.origin}/login`,
+        })
         router.push("/login");
         setIsLoading(false);
         // Perform any additional actions such as redirecting to another page or displaying a success message
