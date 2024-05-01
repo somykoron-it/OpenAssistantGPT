@@ -13,10 +13,10 @@ export async function POST(req: Request): Promise<Response> {
     });
 
     // If magic link is already used, return a 409 Conflict response
-    if (existingUser?.email) {
+    if (!existingUser) {
       return new Response(
-        JSON.stringify({ error: 'Magic link already used' }),
-        { status: 409 }
+        JSON.stringify({ error: 'Magic link not available' }),
+        { status: 400 }
       );
     }
 
@@ -31,14 +31,14 @@ export async function POST(req: Request): Promise<Response> {
     });
 
     // Update the admin record with the user's email
-    await db.admin.update({
-      where: {
-        magicLink: magicLink,
-      },
-      data: {
-        email: email,
-      },
-    });
+    // await db.admin.update({
+    //   where: {
+    //     magicLink: magicLink,
+    //   },
+    //   data: {
+    //     email: email,
+    //   },
+    // });
 
     // Return the created user as JSON response
     return new Response(JSON.stringify(createdUser), { status: 201 });

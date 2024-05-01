@@ -205,7 +205,7 @@ const RegistrationPage: React.FC = () => {
               className="w-full py-2 bg-[#0F172A] text-white rounded-md hover:bg-[#272E3F] transition duration-200"
             >
               {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <div className='flex items-center justify-center'><Icons.spinner className="mr-2 h-6 w-6 animate-spin" /></div>
               ) : (
                 "Register"
               )}

@@ -1,21 +1,33 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { Icons } from './icons';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { buttonVariants } from './ui/button';
+import { useSearchParams } from 'next/navigation';
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string>('');
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
+  // Use searchParams to get the 'error' parameter from the URL
+  const searchParams = useSearchParams();
+  const error = searchParams.get('error');
+
+  // Update the errorMsg state based on the error parameter
+  useEffect(() => {
+    if (error === 'CredentialsSignin') {
+      setErrorMsg('Invalid credentials');
+    }
+  }, [error]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+
     // Use next-auth's signIn function for login
     const result = await signIn('credentials', {
       callbackUrl: '/dashboard',
@@ -25,11 +37,7 @@ const LoginPage: React.FC = () => {
       password,
     });
 
-    if (!result?.ok) {
-      setError('Login failed');
-    } 
     setIsLoading(false);
-
   };
 
   return (
@@ -81,12 +89,12 @@ const LoginPage: React.FC = () => {
           <h2 className="text-[35px] md:text-[40px] font-semibold mb-4 text-center text-[#0F172A] tracking-tight">
             Sign in
           </h2>
-          {error && (
+          {errorMsg && (
             <div
               className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 w-full md:w-[60%]"
               role="alert"
             >
-              <p>{error}</p>
+              <p>{errorMsg}</p>
             </div>
           )}
           <form

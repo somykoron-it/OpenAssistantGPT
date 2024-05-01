@@ -25,22 +25,22 @@ export async function GET(req: Request) {
   }
 }
 
-export async function PATCH(req: Request) {
-  try {
-    const { magicLink, email } = await req.json();
-    const updatedRecord = await db.admin.update({
-      where: {
-        magicLink: magicLink,
-      },
-      data: {
-        email: email,
-      },
-    });
-    return new Response(JSON.stringify(updatedRecord));
-  } catch (error) {
-    console.error('Error updating record:', error);
-    return new Response(JSON.stringify({ error: 'Failed to update record' }), {
-      status: 500,
-    });
-  }
-}
+// export async function PATCH(req: Request) {
+//   try {
+//     const { magicLink, email } = await req.json();
+//     const updatedRecord = await db.admin.update({
+//       where: {
+//         magicLink: magicLink,
+//       },
+//       data: {
+//         email: email,
+//       },
+//     });
+//     return new Response(JSON.stringify(updatedRecord));
+//   } catch (error) {
+//     console.error('Error updating record:', error);
+//     return new Response(JSON.stringify({ error: 'Failed to update record' }), {
+//       status: 500,
+//     });
+//   }
+// }

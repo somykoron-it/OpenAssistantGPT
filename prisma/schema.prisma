@@ -171,7 +171,7 @@ model User {
   name          String?
   email         String?   @unique
   password      String
-  magicLink     String?   @unique
+  magicLink     String?
   premium       Boolean   @default(false)
   active        Boolean   @default(true)
   emailVerified DateTime?
@@ -204,7 +204,6 @@ model Admin {
   id                  String  @id @default(cuid())
   magicLink           String  @unique
   magicLinkUniquePart String
-  email               String?
 }
 
 model AIMode {

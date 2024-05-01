@@ -245,7 +245,7 @@ const AdminDashboard: React.FC = () => {
   // };
 
   const handleToggleProperty = async (
-    registrationId: string,
+    email: string,
     currentStatus: boolean,
     property: 'premium' | 'active'
   ) => {
@@ -257,7 +257,7 @@ const AdminDashboard: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          magicLink: registrationId,
+          email: email,
           [property]: !currentStatus,
         }),
       });
@@ -476,7 +476,7 @@ const AdminDashboard: React.FC = () => {
                           checked={item.hasAccess}
                           onCheckedChange={() =>
                             handleToggleProperty(
-                              item.registrationId,
+                              item.email,
                               item.hasAccess,
                               'premium'
                             )
@@ -489,7 +489,7 @@ const AdminDashboard: React.FC = () => {
                           checked={item.isActive}
                           onCheckedChange={() =>
                             handleToggleProperty(
-                              item.registrationId,
+                              item.email,
                               item.isActive,
                               'active'
                             )

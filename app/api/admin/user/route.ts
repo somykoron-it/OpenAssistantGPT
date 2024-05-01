@@ -21,7 +21,11 @@ function extractData(arr: any) {
 
 export async function GET(req: Request) {
   try {
-    const users = await db.user.findMany({});
+    const users = await db.user.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
     return new Response(JSON.stringify(extractData(users)));
   } catch (error) {
     console.error('Error creating magic link:', error);
@@ -34,12 +38,12 @@ export async function GET(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const { magicLink, ...updateData } = await req.json();
-    console.log(magicLink);
+    const { email, ...updateData } = await req.json();
+    console.log(email);
     console.log(updateData);
     const updatedRecord = await db.user.update({
       where: {
-        magicLink: magicLink,
+        email: email,
       },
       data: updateData,
     });
