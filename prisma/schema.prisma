@@ -201,17 +201,22 @@ model VerificationToken {
 }
 
 model Admin {
-  id                  String  @id @default(cuid())
-  magicLink           String  @unique
+  id                  String @id @default(cuid())
+  magicLink           String @unique
   magicLinkUniquePart String
 }
 
+model AdminPassword {
+  id       String @id @default(cuid())
+  password String @default("admin123456")
+}
+
 model AIMode {
-  id              String @id @default(cuid())
-  userId       String
+  id              String   @id @default(cuid())
+  userId          String
   buesinessName   String
   welcomeMessage  String
   prompt          String
   businessContext String
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
+  createdAt       DateTime @default(now()) @map(name: "created_at")
 }
